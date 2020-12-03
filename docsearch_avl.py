@@ -6,10 +6,6 @@ import pandas as pd
 white_space = re.compile('\s')
 non_alpha = re.compile('([^A-Za-z\s\'])')
 
-list_of_documents = []
-
-new_document = ""
-
 def import_articles():
     data = pd.read_csv('articles_cleaned.csv')
     return data.to_dict(orient = 'records')
@@ -60,6 +56,20 @@ def dot_product(vector1, vector2):
     else:
         raise Exception("Vectors does not have same length.")
 
+def euclidean_distance(vector1, vector2):
+    if len(vector1) == len(vector2):
+        return sum(map(lambda x,y: (x-y)**2, vector1, vector2))**0.5
+
+def similarity_dot_product(vectorized_corpus_lib, parsed_search_doc):
+    for e in vectorized_corpus_lib: 
+        e['similarity_score_dot_product'] = dot_product(e['text_vectorized'], parsed_search_doc['text_vectorized'])
+    return vectorized_corpus_lib
+
+def similarity_euclidean_distance(vectorized_corpus_lib, parsed_search_doc):
+    for e in vectorized_corpus_lib: 
+        e['similarity_score_euclidean_distance'] = euclidean_distance(e['text_vectorized'], parsed_search_doc['text_vectorized'])
+    return vectorized_corpus_lib
+
 corpus_lib = text_corpus_lib_parser(import_articles())
 sorted_corpus_lib = sort_corpus_lib(corpus_lib)
 
@@ -68,10 +78,8 @@ parsed_search_doc = parse_dict(search_doc)
 
 vectorized_corpus_lib, parsed_search_doc = vectorize(sorted_corpus_lib, parsed_search_doc)
 
-def similarity_dot_product(vectorized_corpus_lib, parsed_search_doc):
-    for e in vectorized_corpus_lib: 
-        e['similarity_score'] = dot_product(e['text_vectorized'], parsed_search_doc['text_vectorized'])
-    return vectorized_corpus_lib
+vectorized_corpus_lib = similarity_dot_product(vectorized_corpus_lib, parsed_search_doc)
+vectorized_corpus_lib = similarity_euclidean_distance(vectorized_corpus_lib, parsed_search_doc)
 
-df_dot_product = pd.DataFrame(similarity_dot_product(vectorized_corpus_lib, parsed_search_doc)) 
-print(df_dot_product.sort_values('similarity_score', ascending=False))
+df_dot_product = pd.DataFrame(vectorized_corpus_lib) 
+print(df_dot_product.sort_values('similarity_score_euclidean_distance', ascending=False))
