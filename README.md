@@ -6,6 +6,8 @@ Create a few "documents" `docs = ["Once upon a time", "Let's move to Paris"]`
 
 Add the documents to the library object `lib.addDocuments(docs)`
 
+You can also add some test data by calling `lib.loadExampleCollection()`
+
 Search the library `lib.search("Paris")`
 
 Take a look at what's stored in the library `lib.collections`
