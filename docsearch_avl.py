@@ -73,7 +73,7 @@ def similarity_euclidean_distance(vectorized_corpus_lib, parsed_search_doc):
 corpus_lib = text_corpus_lib_parser(import_articles())
 sorted_corpus_lib = sort_corpus_lib(corpus_lib)
 
-search_doc = {"from": "search", "text": "An entrepreneur tends to bite off a little more than he can chew hoping he’ll quickly learn how to chew it"}
+search_doc = {"from": "search", "text": "An entrepreneur tends to bite off a little more than he can chew hoping he’ll quickly learn how to chew it yolo a to Amir"}
 parsed_search_doc = parse_dict(search_doc)
 
 vectorized_corpus_lib, parsed_search_doc = vectorize(sorted_corpus_lib, parsed_search_doc)
@@ -82,4 +82,6 @@ vectorized_corpus_lib = similarity_dot_product(vectorized_corpus_lib, parsed_sea
 vectorized_corpus_lib = similarity_euclidean_distance(vectorized_corpus_lib, parsed_search_doc)
 
 df_dot_product = pd.DataFrame(vectorized_corpus_lib) 
-print(df_dot_product.sort_values('similarity_score_euclidean_distance', ascending=False))
+print(df_dot_product.sort_values('similarity_score_euclidean_distance', ascending=True))
+
+df_dot_product.to_csv('doc_search_data_avl.csv', index=False)
