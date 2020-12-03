@@ -2,9 +2,7 @@
 
 To test this, initialize a Library object `lib = Library()`
 
-Create a few "documents" `doc1 = "Once upon a time"
-doc2 = "Let's move to Paris"
-docs = [doc1, doc2]`
+Create a few "documents" `docs = ["Once upon a time", "Let's move to Paris"]`
 
 Add the documents to the library object `lib.addDocuments(docs)`
 
